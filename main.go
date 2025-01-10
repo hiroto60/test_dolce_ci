@@ -3,11 +3,10 @@ package main
 import (
 	"net/http"
 
+	"github.com/hiroto60/test_dolce_ci/gen/greetconnect"
+	"github.com/hiroto60/test_dolce_ci/handler"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-
-	"github.com/hiroto1220/go-playground/connect/gen/greetconnect"
-	"github.com/hiroto1220/go-playground/connect/handler"
 )
 
 func main() {
