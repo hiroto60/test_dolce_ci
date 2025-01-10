@@ -1,0 +1,10 @@
+version: v2
+plugins:
+  - local: protoc-gen-go
+    out: gen
+    opt:
+      - module=github.com/hiroto60/test_dolce_ci/gen
+  - local: protoc-gen-connect-go
+    out: gen/greetconnect
+    opt: 
+      - module=github.com/hiroto60/test_dolce_ci/gen
