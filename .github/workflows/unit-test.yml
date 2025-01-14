@@ -24,9 +24,10 @@ jobs:
       - name: Install dependencies
         run: go mod tidy
 
-      # - name: Run tests
-      #   run: |
-      #        go test -cover ./handler . -coverprofile=coverage.out
+      - name: Run tests
+        run: |
+             go test -cover ./handler . -coverprofile=coverage.out
+             go tool cover -html=coverage.out -o coverage.html
 
       - name: Convert coverage to Markdown
         run: bash scripts/coverage_to_md.sh > coverage.md
@@ -35,3 +36,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr comment ${{ github.event.pull_request.number }} --body "$(cat coverage.md)"
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.html

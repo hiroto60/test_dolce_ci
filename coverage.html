@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>handler: Go Coverage Report</title>
+		<title>test_dolce_ci: Go Coverage Report</title>
 		<style>
 			body {
 				background: black;
@@ -55,46 +55,57 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/hiroto60/test_dolce_ci/handler/helloworld.go (80.0%)</option>
+				<option value="file0">github.com/hiroto60/test_dolce_ci/main.go (0.0%)</option>
 				
 				</select>
 			</div>
 			<div id="legend">
 				<span>not tracked</span>
 			
-				<span class="cov0">not covered</span>
-				<span class="cov8">covered</span>
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
 			
 			</div>
 		</div>
 		<div id="content">
 		
-		<pre class="file" id="file0" style="display: none">package handler
+		<pre class="file" id="file0" style="display: none">package main
 
 import (
-        "context"
-        "fmt"
-        "log"
+        "net/http"
 
-        "connectrpc.com/connect"
-        greet "github.com/hiroto60/test_dolce_ci/gen"
+        "github.com/hiroto60/test_dolce_ci/gen/greet/greetconnect"
+        "github.com/hiroto60/test_dolce_ci/gen/hoge/hogeconnect"
+        "github.com/hiroto60/test_dolce_ci/handler"
+        "golang.org/x/net/http2"
+        "golang.org/x/net/http2/h2c"
 )
 
-type GreetHandler struct{}
+func main() <span class="cov0" title="0">{
+        greeter := handler.NewGreetHandler()
+        greetPath, greetHandler := greetconnect.NewGreeterHandler(greeter)
 
-func NewGreetHandler() *GreetHandler <span class="cov0" title="0">{
-        return &amp;GreetHandler{}
-}</span>
+        hoge := handler.NewHogeHandler()
+        hogePath, hogeHandler := hogeconnect.NewHogeHandler(hoge)
 
-func (s *GreetHandler) SayHello(ctx context.Context, req *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error) <span class="cov8" title="1">{
-        log.Println("Request headers: ", req.Header())
-        // 本来ならここから、別の層のメソッドを呼び出すなどする
+        mux := http.NewServeMux()
+        mux.Handle(greetPath, greetHandler)
+        mux.Handle(hogePath, hogeHandler)
 
-        res := connect.NewResponse(&amp;greet.HelloResponse{
-                Message: fmt.Sprintf("Hello, %s!", req.Msg.Name),
-        })
-        res.Header().Set("Greet-Version", "v1")
-        return res, nil
+        http.ListenAndServe(
+                "localhost:8084",
+                // Use h2c so we can serve HTTP/2 without TLS.
+                h2c.NewHandler(mux, &amp;http2.Server{}),
+        )
 }</span>
 </pre>
 		
