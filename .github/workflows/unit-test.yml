@@ -25,4 +25,12 @@ jobs:
         run: go mod tidy
 
       - name: Run tests
-        run: go test ./... -v
+        run: go test -cover ./handler -coverprofile=coverage.out
+      
+      - name: Convert coverage to Markdown
+        run: bash scripts/coverage_to_md.sh > coverage.md
+      
+      - name: Post coverage comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr comment ${{ github.event.pull_request.number }} --body "$(cat coverage.md)"
