@@ -27,8 +27,7 @@ jobs:
       - name: Run tests
         run: |
              go test -cover ./handler . -coverprofile=coverage.out
-             go test -cover main.go -coverprofile=coverage.out
-      
+                   
       - name: Convert coverage to Markdown
         run: bash scripts/coverage_to_md.sh > coverage.md
       
