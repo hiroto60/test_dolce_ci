@@ -25,7 +25,8 @@ jobs:
         run: go mod tidy
 
       - name: Run tests
-        run: go test -cover ./handler -coverprofile=coverage.out
+        run: |
+             go test -cover ./handler -coverprofile=coverage.out
              go test -cover main.go -coverprofile=coverage.out
       
       - name: Convert coverage to Markdown
