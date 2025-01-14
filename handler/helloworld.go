@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"connectrpc.com/connect"
-	greet "github.com/hiroto60/test_dolce_ci/gen"
+	greet "github.com/hiroto60/test_dolce_ci/gen/greet"
 )
 
 type GreetHandler struct{}

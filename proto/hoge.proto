@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "github.com/hiroto60/test_dolce_ci/gen/hoge";
+
+package hoge;
+
+service Hoge {
+    rpc Hoge(HogeRequest) returns (HogeResponse){ }
+}
+
+message HogeRequest {
+    string name = 1;
+}
+
+message HogeResponse {
+    string message = 1;
+}

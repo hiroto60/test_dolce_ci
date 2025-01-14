@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/hiroto60/test_dolce_ci/gen;greet";
+option go_package = "github.com/hiroto60/test_dolce_ci/gen/greet";
 
 package hello;
 

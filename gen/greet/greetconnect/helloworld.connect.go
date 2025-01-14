@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	gen "github.com/hiroto60/test_dolce_ci/gen"
+	greet "github.com/hiroto60/test_dolce_ci/gen/greet"
 	http "net/http"
 	strings "strings"
 )
@@ -39,7 +39,7 @@ const (
 
 // GreeterClient is a client for the hello.Greeter service.
 type GreeterClient interface {
-	SayHello(context.Context, *connect.Request[gen.HelloRequest]) (*connect.Response[gen.HelloResponse], error)
+	SayHello(context.Context, *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error)
 }
 
 // NewGreeterClient constructs a client for the hello.Greeter service. By default, it uses the
@@ -51,9 +51,9 @@ type GreeterClient interface {
 // http://api.acme.com or https://acme.com/grpc).
 func NewGreeterClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) GreeterClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	greeterMethods := gen.File_proto_helloworld_proto.Services().ByName("Greeter").Methods()
+	greeterMethods := greet.File_proto_helloworld_proto.Services().ByName("Greeter").Methods()
 	return &greeterClient{
-		sayHello: connect.NewClient[gen.HelloRequest, gen.HelloResponse](
+		sayHello: connect.NewClient[greet.HelloRequest, greet.HelloResponse](
 			httpClient,
 			baseURL+GreeterSayHelloProcedure,
 			connect.WithSchema(greeterMethods.ByName("SayHello")),
@@ -64,17 +64,17 @@ func NewGreeterClient(httpClient connect.HTTPClient, baseURL string, opts ...con
 
 // greeterClient implements GreeterClient.
 type greeterClient struct {
-	sayHello *connect.Client[gen.HelloRequest, gen.HelloResponse]
+	sayHello *connect.Client[greet.HelloRequest, greet.HelloResponse]
 }
 
 // SayHello calls hello.Greeter.SayHello.
-func (c *greeterClient) SayHello(ctx context.Context, req *connect.Request[gen.HelloRequest]) (*connect.Response[gen.HelloResponse], error) {
+func (c *greeterClient) SayHello(ctx context.Context, req *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error) {
 	return c.sayHello.CallUnary(ctx, req)
 }
 
 // GreeterHandler is an implementation of the hello.Greeter service.
 type GreeterHandler interface {
-	SayHello(context.Context, *connect.Request[gen.HelloRequest]) (*connect.Response[gen.HelloResponse], error)
+	SayHello(context.Context, *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error)
 }
 
 // NewGreeterHandler builds an HTTP handler from the service implementation. It returns the path on
@@ -83,7 +83,7 @@ type GreeterHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewGreeterHandler(svc GreeterHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	greeterMethods := gen.File_proto_helloworld_proto.Services().ByName("Greeter").Methods()
+	greeterMethods := greet.File_proto_helloworld_proto.Services().ByName("Greeter").Methods()
 	greeterSayHelloHandler := connect.NewUnaryHandler(
 		GreeterSayHelloProcedure,
 		svc.SayHello,
@@ -103,6 +103,6 @@ func NewGreeterHandler(svc GreeterHandler, opts ...connect.HandlerOption) (strin
 // UnimplementedGreeterHandler returns CodeUnimplemented from all methods.
 type UnimplementedGreeterHandler struct{}
 
-func (UnimplementedGreeterHandler) SayHello(context.Context, *connect.Request[gen.HelloRequest]) (*connect.Response[gen.HelloResponse], error) {
+func (UnimplementedGreeterHandler) SayHello(context.Context, *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("hello.Greeter.SayHello is not implemented"))
 }
