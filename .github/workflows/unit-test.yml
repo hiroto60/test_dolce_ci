@@ -30,6 +30,9 @@ jobs:
              go test -cover ./handler . -coverprofile=coverage/coverage.out
              go tool cover -html=coverage/coverage.out -o coverage/coverage.html
 
+      - name: Debug artifact directory
+        run: ls -al coverage/
+
       - name: Convert coverage to Markdown
         run: bash scripts/coverage_to_md.sh > coverage.md
       
