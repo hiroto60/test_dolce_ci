@@ -31,10 +31,7 @@ jobs:
              go tool cover -html=coverage/coverage.out -o coverage/coverage.html
 
       - name: Convert coverage to Markdown
-        run: bash scripts/coverage_to_md.sh > coverage.md
-      
-      - name: Debug coverage.md
-        run: ls -al
+        run: bash scripts/coverage_to_md.sh > coverage/coverage.md
 
       - name: Upload coverage report to pages
         uses: actions/upload-pages-artifact@v3
@@ -68,5 +65,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage/coverage.html"
-          coverage_md=$(cat $GITHUB_WORKSPACE/coverage.md)
+          coverage_md=$(cat coverage/coverage.md)
           gh pr comment ${{ github.event.pull_request.number }} --body "📊 **Coverage Report**\n\n$coverage_md\n\n[View detailed coverage report]($pages_url)"
