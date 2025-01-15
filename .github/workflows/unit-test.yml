@@ -45,7 +45,7 @@ jobs:
           path: coverage/coverage.html
 
       - name: Upload coverage report to pages
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           name: coverage-report
           path: coverage
@@ -58,7 +58,7 @@ jobs:
       id-token: write
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
 
       - name: Post deployment comment
         env:
