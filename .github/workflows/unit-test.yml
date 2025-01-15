@@ -32,17 +32,6 @@ jobs:
 
       - name: Convert coverage to Markdown
         run: bash scripts/coverage_to_md.sh > coverage.md
-      
-      - name: Post coverage comment
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr comment ${{ github.event.pull_request.number }} --body "$(cat coverage.md)"
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage/coverage.html
 
       - name: Upload coverage report to pages
         uses: actions/upload-pages-artifact@v3
@@ -52,16 +41,29 @@ jobs:
   
   deploy:
     needs: test
+
     runs-on: ubuntu-latest
+
     permissions:
       pages: write
       id-token: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Configure Pages
         uses: actions/configure-pages@v4
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      
+      - name: Post combined PR comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage/coverage.html"
+          coverage_md=$(cat coverage.md)
+          gh pr comment ${{ github.event.pull_request.number }} --body "📊 **Coverage Report**\n\n$coverage_md\n\n[View detailed coverage report]($pages_url)"
