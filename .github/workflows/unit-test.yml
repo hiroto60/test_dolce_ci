@@ -64,6 +64,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test-output 
+          path: coverage
 
       - name: Deploy to GitHub Pages
         id: deployment
