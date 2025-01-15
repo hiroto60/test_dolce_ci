@@ -53,6 +53,7 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      pull-requests: write
 
     environment:
       name: github-pages
@@ -61,7 +62,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
       - name: Download coverage.md artifact
         uses: actions/download-artifact@v3
         with:
@@ -75,6 +76,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage/coverage.html"
+          pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage"
           coverage_md=$(cat coverage.md)
           gh pr comment ${{ github.event.pull_request.number }} --body "📊 **Coverage Report**\n\n$coverage_md\n\n[View detailed coverage report]($pages_url)"
