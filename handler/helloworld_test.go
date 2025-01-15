@@ -33,7 +33,7 @@ func TestGreetHandler_SayHello(t *testing.T) {
 			},
 			want: func() *connect.Response[greet.HelloResponse] {
 				resp := connect.NewResponse(&greet.HelloResponse{
-					Message: "Hello, Alice!",
+					Message: "Hello, アリス!",
 				})
 				resp.Header().Set("Greet-Version", "v1")
 				return resp
