@@ -27,17 +27,14 @@ jobs:
       - name: Run tests
         run: |
              mkdir coverage
-             go test -cover ./handler . -coverprofile=coverage/coverage.out
+             go test -cover ./handler . -coverprofile=coverage/coverage.out > coverage/test_output.txt 2>&1
              go tool cover -html=coverage/coverage.out -o coverage/coverage.html
 
-      - name: Convert coverage to Markdown
-        run: bash scripts/coverage_to_md.sh > coverage.md
-      
       - name: Upload coverage.md as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-md
-          path: coverage.md
+          name: test-output
+          path: coverage/test_output.txt
 
       - name: Upload coverage report to pages
         uses: actions/upload-pages-artifact@v3
@@ -63,10 +60,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Download coverage.md artifact
+      - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: coverage-md
+          name: coverage/test_output.txt
 
       - name: Deploy to GitHub Pages
         id: deployment
@@ -77,6 +74,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage"
-          coverage_md=$(cat coverage.md)
-          gh pr comment ${{ github.event.pull_request.number }} --body "$(echo -e "$coverage_md\n\n[View detail]($pages_url)")"
+          test_output=$(cat coverage/test_output.txt)
+          gh pr comment ${{ github.event.pull_request.number }} --body "$(echo -e "## Test Coverage Report\n\n\`\`\`\n$test_output\n\`\`\`\n\n[View detail]($pages_url)")"
  
