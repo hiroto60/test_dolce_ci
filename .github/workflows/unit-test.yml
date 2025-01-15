@@ -63,7 +63,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: coverage/test_output.txt
+          name: test-output 
 
       - name: Deploy to GitHub Pages
         id: deployment
