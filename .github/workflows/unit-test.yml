@@ -47,7 +47,7 @@ jobs:
       - name: Upload coverage report to pages
         uses: actions/upload-pages-artifact@v3
         with:
-          name: coverage-report
+          name: github-pages
           path: coverage
   
   deploy:
@@ -57,7 +57,7 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: coverage-report
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Configure Pages
