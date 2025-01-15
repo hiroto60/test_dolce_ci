@@ -78,5 +78,5 @@ jobs:
         run: |
           pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage"
           coverage_md=$(cat coverage.md)
-          gh pr comment ${{ github.event.pull_request.number }} --body "$(echo -e "$coverage_md\n\n[View detailed coverage report]($pages_url)")"
+          gh pr comment ${{ github.event.pull_request.number }} --body "$(echo -e "$coverage_md\n\n[View detail]($pages_url)")"
  
