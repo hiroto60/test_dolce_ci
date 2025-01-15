@@ -59,8 +59,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Configure Pages
-        uses: actions/configure-pages@v4
+      - name: Download coverage.md artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-md
 
       - name: Deploy to GitHub Pages
         id: deployment
