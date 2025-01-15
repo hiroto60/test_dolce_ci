@@ -30,9 +30,6 @@ jobs:
              go test -cover ./handler . -coverprofile=coverage/coverage.out
              go tool cover -html=coverage/coverage.out -o coverage/coverage.html
 
-      - name: Debug artifact directory
-        run: ls -al coverage/
-
       - name: Convert coverage to Markdown
         run: bash scripts/coverage_to_md.sh > coverage.md
       
@@ -59,10 +56,10 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Configure Pages
-        uses: actions/configure-pages@v4
-
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
 
