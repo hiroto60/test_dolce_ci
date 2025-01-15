@@ -39,7 +39,7 @@ jobs:
         run: gh pr comment ${{ github.event.pull_request.number }} --body "$(cat coverage.md)"
 
       - name: Upload coverage report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/coverage.html
@@ -57,7 +57,7 @@ jobs:
       pages: write
       id-token: write
     environment:
-      name: github-pages
+      name: coverage-report
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Configure Pages
