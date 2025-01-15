@@ -1,1 +1,0 @@
-	github.com/hiroto60/test_dolce_ci		coverage: 0.0% of statements
