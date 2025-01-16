@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"connectrpc.com/connect"
-	greet "github.com/hiroto60/test_dolce_ci/gen"
+	greet "github.com/hiroto60/test_dolce_ci/gen/greet"
 )
 
 func TestGreetHandler_SayHello(t *testing.T) {

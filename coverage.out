@@ -1,3 +1,2 @@
-mode: set
-github.com/hiroto60/test_dolce_ci/handler/helloworld.go:14.38,16.2 1 0
-github.com/hiroto60/test_dolce_ci/handler/helloworld.go:18.144,27.2 4 1
+mode: count
+github.com/hiroto60/test_dolce_ci/main.go:13.13,29.2 8 0
