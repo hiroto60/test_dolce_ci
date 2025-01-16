@@ -28,7 +28,7 @@ jobs:
         run: |
              mkdir coverage
              go test -cover ./handler . -coverprofile=coverage/coverage.out > coverage/test_output.txt 2>&1
-             go tool cover -html=coverage/coverage.out -o coverage/coverage.html
+             go tool cover -html=coverage/coverage.out -o coverage/coverage_${branch_name}_${commit_hash}.html
       - name: Upload coverage.md as artifact
         uses: actions/upload-artifact@v3
         with:
@@ -73,6 +73,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage"
+          pages_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/coverage_${branch_name}_${commit_hash}"
           test_output=$(cat coverage/test_output.txt)
           gh pr comment ${{ github.event.pull_request.number }} --body "$(echo -e "## Test Coverage Report\n\n\`\`\`\n$test_output\n\`\`\`\n\n[View detail]($pages_url)")"
