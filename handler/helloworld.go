@@ -26,7 +26,7 @@ func (s *GreetHandler) SayHello(ctx context.Context, req *connect.Request[greet.
 	return res, nil
 }
 
-func (s *GreetHandler) SayHello2(ctx context.Context, req *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error) {
+func (s *GreetHandler) SayHello3(ctx context.Context, req *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error) {
 	log.Println("Request headers: ", req.Header())
 	// 本来ならここから、別の層のメソッドを呼び出すなどする
 
