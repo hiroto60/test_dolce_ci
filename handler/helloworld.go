@@ -25,14 +25,3 @@ func (s *GreetHandler) SayHello(ctx context.Context, req *connect.Request[greet.
 	res.Header().Set("Greet-Version", "v1")
 	return res, nil
 }
-
-func (s *GreetHandler) SayHello3(ctx context.Context, req *connect.Request[greet.HelloRequest]) (*connect.Response[greet.HelloResponse], error) {
-	log.Println("Request headers: ", req.Header())
-	// 本来ならここから、別の層のメソッドを呼び出すなどする
-
-	res := connect.NewResponse(&greet.HelloResponse{
-		Message: fmt.Sprintf("Hello, %s!", req.Msg.Name),
-	})
-	res.Header().Set("Greet-Version", "v1")
-	return res, nil
-}
